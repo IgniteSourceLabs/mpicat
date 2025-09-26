@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	# No configuration needed
+
+override_dh_auto_build:
+	$(MAKE) CC=mpicc CFLAGS="$(CFLAGS) -W -Wall"
+
+override_dh_auto_install:
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/mpicat PREFIX=/usr

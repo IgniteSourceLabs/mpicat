@@ -1,0 +1,22 @@
+Source: mpicat
+Version: 0.0.1
+Section: utils
+Priority: optional
+Maintainer:  <dmitry@monakhov.com>
+Build-Depends: debhelper (>= 9), libopenmpi-dev
+Standards-Version: 4.5.0
+Homepage: https://github.com/dmonakhov/mpicat
+
+Package: mpicat
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openmpi-bin
+Description: CAT(1) for MPI environment
+ MPICAT is a utility that reads data from stdin on rank 0 and forwards it to
+ stdout on all ranks. Data is forwarded from rank 0 to others via MPI_Bcast,
+ which makes it independent of the number of nodes.
+ .
+ This is a basic implementation with a single read/bcast/write loop.
+ .
+ Typical use cases include distributing blobs to MPI workers, fetching data
+ from rank 0 and distributing it to each host, and distributing container
+ images across MPI ranks.

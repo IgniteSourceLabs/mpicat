@@ -1,0 +1,8 @@
+mpicat (0.0.1-1) unstable; urgency=medium
+
+  * Initial release of mpicat
+  * CAT(1) utility for MPI environment
+  * Reads data from stdin on rank 0 and forwards to stdout on all ranks
+  * Uses MPI_Bcast for data distribution across nodes
+
+ -- carl nygard <carl.nygard@thoughtworks.com>  Mon, 01 Jan 2024 12:00:00 +0000

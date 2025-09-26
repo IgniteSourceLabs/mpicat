@@ -1,0 +1,4 @@
+tar-ignore='*.deb'
+tar-ignore='.git*'
+extend-diff-ignore='.git*'
+extend-diff-ignore='mpicat'
