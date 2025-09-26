@@ -5,7 +5,7 @@
  * Data forwarder from rank 0 to others via MPI_Bcast, which makes it independed
  * on number of nodes.
  * This is very basic implementation with single read/bcast/write loop.
- * 
+ *
  * Typical use case is to distribute some blob to mpi workers
  * Examples:
  *
@@ -29,13 +29,13 @@
 #include <string.h>
 
 struct msg {
-	int len;
+	size_t len;
 	char data[];
 };
 
-int do_read(struct msg *msg, int count, int fd)
+size_t do_read(struct msg *msg, size_t count, int fd)
 {
-	int rc;
+	size_t rc = 0;
 	msg->len = 0;
 	while(count) {
 		rc = read(fd, msg->data + msg->len, count);
@@ -49,10 +49,11 @@ int do_read(struct msg *msg, int count, int fd)
 
 int main(int argc, char** argv) {
 	int world_rank;
-	int buf_sz = 0x1000000; //1MB
-	int msg_sz;
+	size_t buf_sz = 0x1000000; //1MB
+	size_t msg_sz;
 	int inbox = 0;
 	long gen_count = 0;
+	size_t write_sz = 0;
 	struct msg* msg;
 
 	if (argc == 2)
@@ -73,20 +74,23 @@ int main(int argc, char** argv) {
 	while(1) {
 		MPI_Barrier(MPI_COMM_WORLD);
 		MPI_Bcast((char *)&msg[inbox], msg_sz, MPI_BYTE, 0, MPI_COMM_WORLD);
-		
+
 		//if (!world_rank)
 		//	fprintf(stderr, "rank:%d gen:%d count:%d\n", world_rank, gen_count, msg[inbox].len);
 
 		if (msg[inbox].len <= 0) {
 			break;
 		}
-		write(1, msg[inbox].data, msg[inbox].len);
+		if((write_sz = write(1, msg[inbox].data, msg[inbox].len)) != msg[inbox].len) {
+			fprintf(stderr, "write failed: expected %zu but wrote %zu\n", msg[inbox].len, write_sz);
+			break;
+		}
 		if (!world_rank)
 			do_read(&msg[inbox^1], buf_sz, 0);
 
 		inbox ^= 1;
 		gen_count++;
-	}		
+	}
 	MPI_Barrier(MPI_COMM_WORLD);
 	time += MPI_Wtime();
 
