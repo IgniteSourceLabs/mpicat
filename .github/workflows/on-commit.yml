@@ -60,6 +60,14 @@ jobs:
           devscripts \
           libopenmpi-dev
 
+    - name: git describe
+      run: |
+        git describe --tags | sed -e 's/v//'
+
+    - name: Version in debian/control.template
+      run: |
+        grep Version debian/control.template || echo "Version not found in debian/control.template"
+
     - name: Update version from git describe
       run: |
         sed "s/Version: .*/Version: $(git describe --tags | sed -e 's/v//')/" debian/control.template > debian/control
