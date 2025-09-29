@@ -64,8 +64,6 @@ do
   esac
 done
 
-shift $((Option - 1))
-
 # Display usage
 # need at least one component bumped
 if [ -z "${major}" ] && [ -z "${minor}" ] && [ -z "${patch}" ] && [ -z "${emitCurrentTag}" ];
