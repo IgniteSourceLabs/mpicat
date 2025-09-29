@@ -60,6 +60,10 @@ jobs:
           devscripts \
           libopenmpi-dev
 
+    - name: release.sh
+      run: |
+        ./scripts/release.sh -n -C -P v
+
     - name: git describe
       run: |
         git describe --tags | sed -e 's/v//'
@@ -70,7 +74,7 @@ jobs:
 
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(git describe --tags | sed -e 's/v//')/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/release.sh -n -C -P v)/" debian/control.template > debian/control
 
     - name: Show debian/control
       run: |
@@ -115,7 +119,7 @@ jobs:
 
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(git describe --tags | sed -e 's/v//')/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/release.sh -n -C -P v)/" debian/control.template > debian/control
 
     - name: Show debian/control
       run: |
