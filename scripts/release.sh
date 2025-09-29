@@ -78,7 +78,7 @@ pushd "$(dirname "${0}")/../"
 
 git fetch --prune --tags
 
-version=$(git describe --abbrev=0 --tags)
+version=$(git describe --abbrev=0 --always --tags)
 version=$(stripPrefix "${version}" ${prefix}) # Remove the prefix in the tag release-0.37.10 for example
 
 [ "${emitCurrentTag}" = true ] && echo "${version}" && exit 0
