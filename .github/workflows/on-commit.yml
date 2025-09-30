@@ -67,6 +67,13 @@ jobs:
     - name: Update version from git describe
       run: |
         sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIANcontrol
+
+    - name: Show debian/control
+      run: |
+        cat debian/control
+        echo "---"
+        cat debian/DEBIAN/control
 
     - name: Build Debian package
       run: |
@@ -81,7 +88,6 @@ jobs:
     - name: Pull up packages
       run: |
         cp ../*deb .
-
     - name: Upload package artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -109,6 +115,13 @@ jobs:
     - name: Update version from git describe
       run: |
         sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIANcontrol
+
+    - name: Show debian/control
+      run: |
+        cat debian/control
+        echo "---"
+        cat debian/DEBIAN/control
 
     - name: Build source package
       run: |

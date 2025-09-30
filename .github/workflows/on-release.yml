@@ -57,13 +57,20 @@ jobs:
           devscripts \
           libopenmpi-dev
 
+    - name: git-version-gen
+      run: |
+        ./scripts/git-version-gen --prefix v .tarball-version
+
     - name: Update version from git describe
       run: |
         sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIANcontrol
 
     - name: Show debian/control
       run: |
         cat debian/control
+        echo "---"
+        cat debian/DEBIAN/control
 
     - name: Build Debian package
       run: |
@@ -106,8 +113,15 @@ jobs:
     - name: Update version from git describe
       run: |
         sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIANcontrol
 
-    - name: Build source package
+    - name: Show debian/control
+      run: |
+        cat debian/control
+        echo "---"
+        cat debian/DEBIAN/control
+
+        - name: Build source package
       run: |
         dpkg-buildpackage -S
         ls -la ../*.dsc ../*.tar.gz ../*.changes
