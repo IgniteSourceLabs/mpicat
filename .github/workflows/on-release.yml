@@ -121,7 +121,7 @@ jobs:
         echo "---"
         cat debian/DEBIAN/control
 
-        - name: Build source package
+    - name: Build source package
       run: |
         dpkg-buildpackage -S
         ls -la ../*.dsc ../*.tar.gz ../*.changes
