@@ -64,7 +64,7 @@ jobs:
     - name: Update version from git describe
       run: |
         sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
-        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIANcontrol
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIAN/control
 
     - name: Show debian/control
       run: |
@@ -113,7 +113,7 @@ jobs:
     - name: Update version from git describe
       run: |
         sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
-        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIANcontrol
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/DEBIAN/control.template > debian/DEBIAN/control
 
     - name: Show debian/control
       run: |
