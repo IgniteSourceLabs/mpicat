@@ -60,9 +60,13 @@ jobs:
           devscripts \
           libopenmpi-dev
 
+    - name: git-version-gen
+      run: |
+        ./scripts/git-version-gen --prefix v .tarball-version
+
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(git describe --tags | sed -e 's/v//')/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
 
     - name: Build Debian package
       run: |
@@ -77,6 +81,7 @@ jobs:
     - name: Pull up packages
       run: |
         cp ../*deb .
+
     - name: Upload package artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -103,7 +108,7 @@ jobs:
 
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(git describe --tags | sed -e 's/v//')/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
 
     - name: Build source package
       run: |
@@ -137,6 +142,10 @@ jobs:
       with:
         name: mpicat-debian-openmpi
         path: ./packages
+
+    - name: Show packages
+      run: |
+        ls -la ./packages
 
     - name: Install MPI runtime
       run: |

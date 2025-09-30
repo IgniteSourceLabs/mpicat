@@ -59,7 +59,11 @@ jobs:
 
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(git describe --tags | sed -e 's/v//')/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
+
+    - name: Show debian/control
+      run: |
+        cat debian/control
 
     - name: Build Debian package
       run: |
@@ -101,7 +105,7 @@ jobs:
 
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(git describe --tags | sed -e 's/v//')/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
 
     - name: Build source package
       run: |
@@ -135,6 +139,10 @@ jobs:
       with:
         name: mpicat-debian-openmpi
         path: ./packages
+
+    - name: Show packages
+      run: |
+        ls -la ./packages
 
     - name: Install MPI runtime
       run: |
@@ -178,6 +186,10 @@ jobs:
       with:
         name: mpicat-source-openmpi
         path: ./packages
+
+    - name: Show packages
+      run: |
+        ls -la ./packages
 
     - name: Release
       uses: softprops/action-gh-release@v2
