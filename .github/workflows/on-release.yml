@@ -107,10 +107,6 @@ jobs:
       run: |
         sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
 
-    - name: Show debian/control
-      run: |
-        cat debian/control
-
     - name: Build source package
       run: |
         dpkg-buildpackage -S
