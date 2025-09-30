@@ -64,6 +64,10 @@ jobs:
       run: |
         ./scripts/release.sh -n -C -P v
 
+    - name: git-version-gen
+      run: |
+        ./scripts/git-version-gen --prefix v .tarball-version
+
     - name: git describe
       run: |
         git describe --tags | sed -e 's/v//'
@@ -74,7 +78,7 @@ jobs:
 
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(./scripts/release.sh -n -C -P v)/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
 
     - name: Show debian/control
       run: |
@@ -119,7 +123,7 @@ jobs:
 
     - name: Update version from git describe
       run: |
-        sed "s/Version: .*/Version: $(./scripts/release.sh -n -C -P v)/" debian/control.template > debian/control
+        sed "s/Version: .*/Version: $(./scripts/git-version-gen --prefix v .tarball-version)/" debian/control.template > debian/control
 
     - name: Show debian/control
       run: |
