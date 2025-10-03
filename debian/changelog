@@ -1,8 +1,14 @@
+mpicat (0.1.7-1) unstable; urgency=low
+
+  * change runners to ubuntu-22.04-arm to match current installed Ubuntu
+
+ -- carl nygard <carl.nygard@thoughtworks.com> Thu, 03 Oct 2025 11:53:00 +0100
+
 mpicat (0.1.6-1) unstable; urgency=low
 
   * change runners to ubuntu-24.04-arm to build packages for arm64
 
--- carl nygard <carl.nygard@thoughtworks.com> Thu, 02 Oct 2025 17:40:00 +0100
+ -- carl nygard <carl.nygard@thoughtworks.com> Thu, 02 Oct 2025 17:40:00 +0100
 
 mpicat (0.1.5-1) unstable; urgency=medium
 
